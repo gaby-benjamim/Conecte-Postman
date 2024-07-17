@@ -1,0 +1,52 @@
+require('dotenv').config()
+const express = require('express')
+const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
+const jwt = require ('jsonwebtoken')
+
+const app = express()
+
+// Config JSON
+app.use(express.json())
+
+
+// Open Route - Public Route
+app.get('/', (req, res) =>{
+    res.status(200).json({msg: "Bem-vindo a nossa api"})
+})
+
+// Register User
+app.post('/auth/register', async(req, res) => {
+    const {name, email, password, confirmpassword} = req.body
+
+    //  validacoes
+    if(!name) {
+        return res.status(422).json({msg: 'O nome é obrigatório! '})
+    }
+
+    if(!email) {
+        return res.status(422).json({msg: 'O email é obrigatório! '})
+    }
+
+    if(!password) {
+        return res.status(422).json({msg: 'A senha é obrigatória! '})
+    }
+
+})
+
+
+
+// Credencial
+const dbUser = process.env.DB_USER
+const dbPassword = process.env.DB_PASS
+
+mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}cluster0.btbvker.mongodb.net/" --apiVersion` 
+)
+.then(() =>{
+    app.listen(3000)
+    console.log('Conectou ao banco')
+}).catch((err) => console.log(err))
+
+
+
+
