@@ -10,13 +10,17 @@ const app = express()
 app.use(express.json())
 
 
+// Models
+const User = require('./models/User')
+
 // Open Route - Public Route
 app.get('/', (req, res) =>{
-    res.status(200).json({msg: "Bem-vindo a nossa api"})
+    res.status(200).json({msg: "Bem-vindo a nossa API"})
 })
 
+
 // Register User
-app.post('/auth/register', async(req, res) => {
+app.post('/registro/usuario', async(req, res) => {
     const {name, email, password, confirmpassword} = req.body
 
     //  validacoes
@@ -40,10 +44,18 @@ app.post('/auth/register', async(req, res) => {
 const dbUser = process.env.DB_USER
 const dbPassword = process.env.DB_PASS
 
-mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}cluster0.btbvker.mongodb.net/" --apiVersion` 
+mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.btbvker.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+` 
 )
 .then(() =>{
+  
+
+
     app.listen(3000)
+
+
+
+
     console.log('Conectou ao banco')
 }).catch((err) => console.log(err))
 
